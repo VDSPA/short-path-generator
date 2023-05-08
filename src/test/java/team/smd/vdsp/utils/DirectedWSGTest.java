@@ -8,18 +8,17 @@ import org.junit.Test;
 public class DirectedWSGTest {
 
 	@Test
-	public void createGraph () {
-		int [][] matrix = DirectedWSG.getMatrix();
+	public void createGraph() {
+		int[][] matrix = DirectedWSG.getMatrix();
 		for (int[] line : matrix) {
 			assertEquals(line.length, matrix.length);
 		}
 	}
 
 	@Test
-	@Ignore
-	public void createGraphWithoutRing () {
-		int [][] matrix = DirectedWSG.getMatrix();
-		for (int[] row: matrix) {
+	public void createGraphWithoutRing() {
+		int[][] matrix = DirectedWSG.getMatrix();
+		for (int[] row : matrix) {
 			assertEquals(row.length, matrix.length);
 		}
 		int count = 0;

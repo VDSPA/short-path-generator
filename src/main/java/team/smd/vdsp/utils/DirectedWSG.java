@@ -54,6 +54,15 @@ public class DirectedWSG {
 		adjM_int = new int[n][n];
 		Random random = new Random();
 
+		//确保两点之间只有一条边，无环
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (adjMatrix[i][j] && adjMatrix[j][i]) {
+					adjMatrix[i][j] = false;
+				}
+			}
+		}
+
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				if (adjMatrix[i][j]) {
