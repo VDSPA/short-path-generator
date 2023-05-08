@@ -1,8 +1,8 @@
-package src.main.java.team.vdsp.vdsp.utils;
+package team.smd.vdsp.utils;
 
 import java.util.Random;
 
-public class directedWSG {
+public class DirectedWSG {
 
 	private static int[][] adjM_int;
 
@@ -68,7 +68,7 @@ public class directedWSG {
 	}
 
 	public static void setWeight(int weight) {
-		directedWSG.weight = weight;
+		DirectedWSG.weight = weight;
 	}
 
 	//返回一个带权邻接矩阵
