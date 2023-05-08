@@ -18,4 +18,5 @@ buildNumber.properties
 
 # Editors
 .idea/
+.vscode/
 .DS_Store
