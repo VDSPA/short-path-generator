@@ -68,6 +68,16 @@ public class DFS {
 		LinkedList<Step> queue = new LinkedList<Step>();
 		queue = dfsShortest(start, end, visited, pathList, pathLength);
 
+		// 此时 shortest 队列中的元素，即为当前起点和终点最短路径上的边
+		// 对最短路径的所有边进行settle
+		Target[] tt = new Target[shortest.size() - 1];
+		for (int i = 0; i < shortest.size() - 1; i++) {
+			tt[i] = new Target("edge", shortest.get(i) + ":" + shortest.get(i + 1));
+		}
+		Step ss = new Step("settle", tt);
+		queue.offer(ss);
+
+		// 两点之间最短路径寻找结束后，进行 reset
 		Target[] t = new Target[1];
 		t[0] = new Target("edge", "");
 		Step s = new Step("reset", t);
@@ -128,18 +138,9 @@ public class DFS {
 
 				// 存在边且尚未被访问过，继续遍历
 				pathList.add(v);
-				// traverse node v
-				// t[0]=new Target("node",""+u);
-				// s=new step("traverse",t);
-				// queue.offer(s);
 				// traverse edge u:v
 				t[0] = new Target("edge", u + ":" + v);
 				s = new Step("traverse", t);
-				queue.offer(s);
-
-				// settle edge u:v
-				t[0] = new Target("edge", u + ":" + v);
-				s = new Step("settle", t);
 				queue.offer(s);
 
 				// traverse node v
