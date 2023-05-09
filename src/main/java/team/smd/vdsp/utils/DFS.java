@@ -43,12 +43,24 @@ public class DFS {
         pathLength[start]=0;
         LinkedList<step>  queue=new LinkedList<step>();
         queue=dfsShortest(start, end, visited, pathList, pathLength);
+        
+        //此时shorteat队列中的元素，即为当前起点和终点最短路径上的边
+        //对最短路径的所有边进行settle
+        Target[]  tt=new  Target[shortest.size()-1];
+        for(int i=0;i<shortest.size()-1;i++){
+            tt[i]=new  Target("edge",shortest.get(i)+":"+shortest.get(i+1));  
+                                
+        }
+        step  ss=new  step("settle",tt);
+        queue.offer(ss);
+
+        //两点之间最短路径寻找结束后，进行reset
         Target[] t=new Target[1];
         t[0]=new Target("edge","");
         step s=new step("reset",t);
         queue.offer(s);
+       
         //去掉队列中重复的元素
-        
         for (int i = 0; i < queue.size(); i++) {
             if(i==queue.size()-1)
                 break;
@@ -58,6 +70,8 @@ public class DFS {
                 }
             }
         }
+        
+
         return  queue;
     }
 
@@ -91,18 +105,12 @@ public class DFS {
                  
                 //存在边且尚未被访问过，继续遍历
                 pathList.add(v);
-                //traverse  node v
-                // t[0]=new Target("node",""+u);
-                // s=new step("traverse",t);
-                // queue.offer(s); 
+                
                 //traverse  edge u:v
                 t[0]=new Target("edge",u+":"+v);
                 s=new step("traverse",t);
                 queue.offer(s);
-                //settle  edge u:v
-                t[0]=new Target("edge",u+":"+v);
-                s=new step("settle",t);
-                queue.offer(s);
+          
                 //traverse  node v
                 t[0]=new Target("node",""+v);
                 s=new step("traverse",t);
@@ -186,8 +194,8 @@ public class DFS {
         //展示起点和某个终点之间寻找最短路径的过程
         System.out.println("Show every step:");        
         LinkedList<step>  queue=new  LinkedList<step>();
-        queue=d2.shortest(start, 3);
-        queue.addAll(d2.shortest(start,2));
+        queue=d2.shortest(start, 4);
+        //queue.addAll(d2.shortest(start,2));
         //输出队列中的值
         while(queue.isEmpty()!=true){
             step  head = queue.poll();
