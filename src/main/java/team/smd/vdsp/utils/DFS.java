@@ -1,198 +1,213 @@
 package team.smd.vdsp.utils;
-import  java.util.ArrayList;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Stack;
-import  java.util.Arrays;
-import  java.util.List;
+
+import team.smd.vdsp.models.Target;
+import team.smd.vdsp.models.Step;
+
+import java.util.Arrays;
+
 public class DFS {
-    private  int  v_size=0;//µãµÄ¸öÊı
-    private  int  start=0;//³ö·¢µã
-    private  int  adjMatrix[][];
-    private  ArrayList<Integer>  shortest=new ArrayList<>();//ÓÃÀ´´æ´¢µ±Ç°×î¶ÌµÄÂ·¾¶
-    private  int  shortestDis;//ÓÃÀ´´æ´¢µ±Ç°×î¶ÌÂ·¾¶µÄ³¤¶È
-    
-    public  DFS(){}
-    public    DFS(int[][] Matrix,int  start){
-        this.start=start;
-        this.v_size=Matrix.length;
-        this.adjMatrix=new int[v_size][Matrix[0].length];
-        for(int i=0;i<Matrix.length;i++){
-            for(int  j=0;j<Matrix[i].length;j++){
-                        this.adjMatrix[i][j]=Matrix[i][j];
-            }
-        }
-        for(int i=0;i<adjMatrix.length;i++){
-            for(int j=0;j<adjMatrix.length;j++){
-                if((i!=j)&&(adjMatrix[i][j]==0)){
-                    adjMatrix[i][j]=Integer.MAX_VALUE;
-                }
-            }
-        }
- 
-    }
-    
-    ////ÕÒµ½Á½¸öµãÖ®¼äµÄËùÓĞÂ·¾¶£¬²¢±£´æÏÂ×îĞ¡µÄÄÇÌõÂ·¾¶
-    public   LinkedList<step>  shortest(int  start,int  end){
-        shortestDis=Integer.MAX_VALUE;
-        boolean[]  visited=new  boolean[v_size];//±ê¼Ç½ÚµãÊÇ·ñ±»·ÃÎÊ¹ı
-        ArrayList<Integer> pathList=new ArrayList<>();//ÓÃÀ´´æ´¢µ±Ç°µÄÂ·¾¶
-        int[]  pathLength =new  int[v_size];
-        Arrays.fill(pathLength,Integer.MAX_VALUE);
-        //´ÓÆğµã¿ªÊ¼ËÑË÷×î¶ÌÂ·¾¶
-        pathList.add(start);
-        pathLength[start]=0;
-        LinkedList<step>  queue=new LinkedList<step>();
-        queue=dfsShortest(start, end, visited, pathList, pathLength);
-        Target[] t=new Target[1];
-        t[0]=new Target("edge","");
-        step s=new step("reset",t);
-        queue.offer(s);
-        //È¥µô¶ÓÁĞÖĞÖØ¸´µÄÔªËØ
-        
-        for (int i = 0; i < queue.size(); i++) {
-            if(i==queue.size()-1)
-                break;
-            else{
-               if( (queue.get(i)).equals( queue.get(i+1))){
-                    queue.remove(i);
-                }
-            }
-        }
-        return  queue;
-    }
 
-    public  LinkedList<step> dfsShortest(int  u,int end,boolean[] visited,ArrayList<Integer> pathList,int[] pathLength){
-        //u:Æğµã
-        //end:end point
-        LinkedList<step> queue = new LinkedList<>();
-        step  s;
-        visited[u]=true;
-        //traverse  node  u
-        Target[] t=new Target[1];
-        if(u==start){
-            t[0]=new Target("node",""+start);
-            s=new step("traverse",t);
-            queue.offer(s);
-        }
-        
-        if(u==end){//µ±Ç°½ÚµãÎªÖÕµã
-            //½«¸ÃÂ·¾¶ÓëÒÑÓĞµÄ×î¶ÌÂ·¾¶µÄ³¤¶È×÷±È½Ï£¬Èôµ±Ç°Â·¾¶¸ü¶Ì£¬Ôò¸üĞÂ×î¶ÌÂ·¾¶
-            if(shortestDis>pathLength[end]){
-                shortestDis=pathLength[end];
-                shortest=new ArrayList<>(pathList);
-                
-            }
-            visited[u]=false;//»ØËİ
-            return queue;
-        }
+	/** number of vertexes */
+	private int vSize = 0;
 
-        for(int  v=0;v<v_size;v++){
-            if(adjMatrix[u][v]!=0 && !visited[v] &&adjMatrix[u][v]!=Integer.MAX_VALUE ){
-                 
-                //´æÔÚ±ßÇÒÉĞÎ´±»·ÃÎÊ¹ı£¬¼ÌĞø±éÀú
-                pathList.add(v);
-                //traverse  node v
-                // t[0]=new Target("node",""+u);
-                // s=new step("traverse",t);
-                // queue.offer(s); 
-                //traverse  edge u:v
-                t[0]=new Target("edge",u+":"+v);
-                s=new step("traverse",t);
-                queue.offer(s);
-                //settle  edge u:v
-                t[0]=new Target("edge",u+":"+v);
-                s=new step("settle",t);
-                queue.offer(s);
-                //traverse  node v
-                t[0]=new Target("node",""+v);
-                s=new step("traverse",t);
-                queue.offer(s);                
-                pathLength[v]=pathLength[u]+adjMatrix[u][v];
-                queue.addAll(dfsShortest(v, end, visited, pathList, pathLength));
-                pathList.remove(pathList.size()-1);//»ØËİ
-                pathLength[v]=Integer.MAX_VALUE;
-            }
-        }
-        visited[u]=false;//»ØËİ
-        
+	/** start pot id */
+	private int start = 0;
 
-        return  queue;
-    }
+	private int adjMatrix[][];
 
-    //ÓÃÀ´Ñ°ÕÒ×îÖÕµÄÂ·¾¶ĞÅÏ¢
-    public  void  showFinalInfo(){
-        System.out.println("SHOW FINAL INFO");
-        System.out.println("Length:"+shortestDis);
-        for(int  i=0;i<shortest.size();i++){
-            
-            System.out.print(shortest.get(i)+" -> ");
-        }
-        
-        System.out.println("");
+	/** short-path of current dfs */
+	private ArrayList<Integer> shortest = new ArrayList<>();
 
-    }
+	/** ç”¨æ¥å­˜å‚¨å½“å‰æœ€çŸ­è·¯å¾„çš„é•¿åº¦ */
+	private int shortestDis;
 
-    //Õ¹Ê¾ÖĞ¼äĞÅÏ¢
-    private  void  showInfo(boolean[] visited,ArrayList<Integer> pathList,int[] pathLength){
-        for(int  i=0;i<visited.length;i++){
-            System.out.print("visited:"+visited[i]+" ");
-        }
-        System.out.println("");
-        for(int  i=0;i<pathList.size();i++){
-            System.out.print("pathList:"+pathList.get(i)+" ");
-        }
-        System.out.println("");
-        for(int  i=0;i<pathLength.length;i++){
-            System.out.println("pathLength"+pathLength[i]+" ");
-        }
-        System.out.println("");
-    }
+	public DFS() {
+	}
 
+	public DFS(int[][] Matrix, int start) {
+		this.start = start;
+		this.vSize = Matrix.length;
+		this.adjMatrix = new int[vSize][Matrix[0].length];
+		for (int i = 0; i < Matrix.length; i++) {
+			for (int j = 0; j < Matrix[i].length; j++) {
+				this.adjMatrix[i][j] = Matrix[i][j];
+			}
+		}
+		for (int i = 0; i < adjMatrix.length; i++) {
+			for (int j = 0; j < adjMatrix.length; j++) {
+				if ((i != j) && (adjMatrix[i][j] == 0)) {
+					adjMatrix[i][j] = Integer.MAX_VALUE;
+				}
+			}
+		}
+	}
 
+	public int getVSize() {
+		return vSize;
+	}
 
-    //´òÓ¡¾ØÕó
-    public   void  printMatrix(){
-        for(int i=0;i<adjMatrix.length;i++){
-            for(int j=0;j<adjMatrix[i].length;j++){
-                if(adjMatrix[i][j]==Integer.MAX_VALUE){
-                    System.out.printf("%5s","MAX");
-                }
-                else{
-                    System.out.printf("%5s",adjMatrix[i][j]+"");
-                }
-               
-            }
-            System.out.println();
-        }
+	/**
+	 * æ‰¾åˆ°ä¸¤ä¸ªç‚¹ä¹‹é—´çš„æ‰€æœ‰è·¯å¾„ï¼Œå¹¶ä¿å­˜ä¸‹æœ€å°çš„é‚£æ¡è·¯å¾„
+	 * 
+	 * @param start èµ·ç‚¹
+	 * @param end   ç»ˆç‚¹
+	 * @return éå†ä¿¡æ¯
+	 */
+	public LinkedList<Step> shortest(int start, int end) {
+		shortestDis = Integer.MAX_VALUE;
+		boolean[] visited = new boolean[vSize];// æ ‡è®°èŠ‚ç‚¹æ˜¯å¦è¢«è®¿é—®è¿‡
+		ArrayList<Integer> pathList = new ArrayList<>();// ç”¨æ¥å­˜å‚¨å½“å‰çš„è·¯å¾„
+		int[] pathLength = new int[vSize];
+		Arrays.fill(pathLength, Integer.MAX_VALUE);
+		// ä»èµ·ç‚¹å¼€å§‹æœç´¢æœ€çŸ­è·¯å¾„
+		pathList.add(start);
+		pathLength[start] = 0;
+		LinkedList<Step> queue = new LinkedList<Step>();
+		queue = dfsShortest(start, end, visited, pathList, pathLength);
 
-    }
-    
-    public  static void main(String[] args){
+		Target[] t = new Target[1];
+		t[0] = new Target("edge", "");
+		Step s = new Step("reset", t);
+		queue.offer(s);
 
-        /*For DFS internal test*/
-        int[][]  arrMatrix={{0,1,0,3,0},{0,0,2,4,0},{0,0,0,0,1},{0,0,0,0,1},{0,0,0,0,0}};
-        int  start=0;//Æğµã
-        DFS   d2=new  DFS(arrMatrix,start);
-        System.out.println("Show matrix:");
-        d2.printMatrix();
-        //Õ¹Ê¾ÆğµãºÍÆäËûµãÖ®¼äµÄ×î¶ÌÂ·¾¶ºÍ×î¶ÌÂ·¾¶µÄ³¤¶È
-        System.out.println("Show the shortest path between start node and other node:");
-        for(int  i=0;i<d2.v_size;i++){
-            if(i!=start){
-                d2.shortest(start, i);
-                d2.showFinalInfo();
-            }
-        }
-        //Õ¹Ê¾ÆğµãºÍÄ³¸öÖÕµãÖ®¼äÑ°ÕÒ×î¶ÌÂ·¾¶µÄ¹ı³Ì
-        System.out.println("Show every step:");        
-        LinkedList<step>  queue=new  LinkedList<step>();
-        queue=d2.shortest(start, 3);
-        queue.addAll(d2.shortest(start,2));
-        //Êä³ö¶ÓÁĞÖĞµÄÖµ
-        while(queue.isEmpty()!=true){
-            step  head = queue.poll();
-            head.showStep();
-           }
+		// å»æ‰é˜Ÿåˆ—ä¸­é‡å¤çš„å…ƒç´ 
+		for (int i = 0; i < queue.size(); i++) {
+			if (i == queue.size() - 1)
+				break;
+			else {
+				if ((queue.get(i)).equals(queue.get(i + 1))) {
+					queue.remove(i);
+				}
+			}
+		}
+		return queue;
+	}
 
-    }
+	/**
+	 * 
+	 * @param u          èµ·ç‚¹
+	 * @param end        ç»ˆç‚¹
+	 * @param visited
+	 * @param pathList
+	 * @param pathLength
+	 * @return
+	 */
+	public LinkedList<Step> dfsShortest(int u, int end, boolean[] visited, ArrayList<Integer> pathList,
+			int[] pathLength) {
+		LinkedList<Step> queue = new LinkedList<>();
+		Step s;
+		visited[u] = true;
+
+		// traverse node u
+		Target[] t = new Target[1];
+		if (u == start) {
+			t[0] = new Target("node", "" + start);
+			s = new Step("traverse", t);
+			queue.offer(s);
+		}
+
+		if (u == end) {
+			// å½“å‰èŠ‚ç‚¹ä¸ºç»ˆç‚¹
+			// å°†è¯¥è·¯å¾„ä¸å·²æœ‰çš„æœ€çŸ­è·¯å¾„çš„é•¿åº¦ä½œæ¯”è¾ƒï¼Œè‹¥å½“å‰è·¯å¾„æ›´çŸ­ï¼Œåˆ™æ›´æ–°æœ€çŸ­è·¯å¾„
+			if (shortestDis > pathLength[end]) {
+				shortestDis = pathLength[end];
+				shortest = new ArrayList<>(pathList);
+			}
+			// å›æº¯
+			visited[u] = false;
+			return queue;
+		}
+
+		for (int v = 0; v < vSize; v++) {
+			if (adjMatrix[u][v] != 0
+					&& !visited[v]
+					&& adjMatrix[u][v] != Integer.MAX_VALUE) {
+
+				// å­˜åœ¨è¾¹ä¸”å°šæœªè¢«è®¿é—®è¿‡ï¼Œç»§ç»­éå†
+				pathList.add(v);
+				// traverse node v
+				// t[0]=new Target("node",""+u);
+				// s=new step("traverse",t);
+				// queue.offer(s);
+				// traverse edge u:v
+				t[0] = new Target("edge", u + ":" + v);
+				s = new Step("traverse", t);
+				queue.offer(s);
+
+				// settle edge u:v
+				t[0] = new Target("edge", u + ":" + v);
+				s = new Step("settle", t);
+				queue.offer(s);
+
+				// traverse node v
+				t[0] = new Target("node", "" + v);
+				s = new Step("traverse", t);
+				queue.offer(s);
+				pathLength[v] = pathLength[u] + adjMatrix[u][v];
+				queue.addAll(dfsShortest(v, end, visited, pathList, pathLength));
+
+				// å›æº¯
+				pathList.remove(pathList.size() - 1);
+				pathLength[v] = Integer.MAX_VALUE;
+			}
+		}
+		// å›æº¯
+		visited[u] = false;
+
+		return queue;
+	}
+
+	/**
+	 * ä» shortest è·å¾—æœ€çŸ­è·¯å¾„ä¿¡æ¯
+	 * éœ€è¦åœ¨
+	 * 
+	 * @param start
+	 * @param end
+	 * @return æœ€çŸ­è·¯å¾„ä¿¡æ¯
+	 */
+	public String getFullPath(int start, int end) {
+		if (shortest.size() <= 0)
+			return "";
+
+		String path = shortest.get(0).toString();
+		for (int i = 1; i < shortest.size(); i++) {
+			path += (" -> " + shortest.get(i));
+		}
+		return path;
+	}
+
+	// å±•ç¤ºä¸­é—´ä¿¡æ¯
+	private void showInfo(boolean[] visited, ArrayList<Integer> pathList, int[] pathLength) {
+		for (int i = 0; i < visited.length; i++) {
+			System.out.print("visited:" + visited[i] + " ");
+		}
+		System.out.println("");
+		for (int i = 0; i < pathList.size(); i++) {
+			System.out.print("pathList:" + pathList.get(i) + " ");
+		}
+		System.out.println("");
+		for (int i = 0; i < pathLength.length; i++) {
+			System.out.println("pathLength" + pathLength[i] + " ");
+		}
+		System.out.println("");
+	}
+
+	public String toMatrix() {
+		String matrix = "";
+		for (int i = 0; i < adjMatrix.length; i++) {
+			for (int j = 0; j < adjMatrix[i].length; j++) {
+				if (adjMatrix[i][j] == Integer.MAX_VALUE) {
+					matrix += String.format("%5s", "MAX");
+				} else {
+					matrix += String.format("%5s ", adjMatrix[i][j]);
+				}
+			}
+			matrix += "\n";
+		}
+		return matrix;
+	}
+
 }

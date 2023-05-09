@@ -1,226 +1,206 @@
 package team.smd.vdsp.utils;
 
-import  java.util.Stack;
 import java.util.LinkedList;
-public class  Dijstra{
-    private  int  v_size=0;//µãµÄ¸öÊı
-    private  int  start=0;//³ö·¢µã
-    private  int  adjMatrix[][];
-     //×î¶ÌÂ·¾¶³¤¶È
-    private int  []shortest;
-     //ÅĞ¶Ï¸ÃµãµÄ×î¶ÌÂ·¾¶ÊÇ·ñÇó³ö
-    private boolean[] visited;
-     //ÓÃÀ´´æ´¢×î¶ÌÂ·¾¶ÉÏµÄÇ°Çı
-    private int[] pre;
-    public   Dijstra(){   }
-    //¹¹Ôìº¯Êı£¬´«ÈëÍ¼ºÍÆğµã
-    public     Dijstra(int[][] Matrix,int  start){
-        this.start=start;
-        this.v_size=Matrix.length;
-        this.adjMatrix=new int[v_size][Matrix[0].length];
-        for(int i=0;i<Matrix.length;i++){
-            for(int  j=0;j<Matrix[i].length;j++){
-                        this.adjMatrix[i][j]=Matrix[i][j];
-            }
-        }
-        shortest=new int[v_size];
-        visited=new boolean[v_size];
-        pre=new int[v_size];
+import team.smd.vdsp.models.Target;
+import team.smd.vdsp.models.Step;
 
-       for(int i=0;i<Matrix.length;i++){
-        visited[i]=false;
-        shortest[i]=Integer.MAX_VALUE;
-        pre[i]=-1;
-       }
+public class Dijstra {
 
- 
-    }
-    //¶Ô¾ØÕó½øĞĞ³õÊ¼»¯
-    public   void  initialize(){
-        for(int i=0;i<adjMatrix.length;i++){
-            for(int j=0;j<adjMatrix.length;j++){
-                if((i!=j)&&(adjMatrix[i][j]==0)){
-                    adjMatrix[i][j]=Integer.MAX_VALUE;
-                }
-            }
-        }
-    }
-    //Ñ°ÕÒ×î¶ÌÂ·¾¶
-    public  LinkedList<step>  shortest(){
-        LinkedList<step> queue = new LinkedList<>();
-        step  s;
-        initialize();
-       //³õÊ¼»¯Ô´½Úµã
-       shortest[start] = 0;
-       visited[start] = true;
-       Target[] t=new Target[1];
-       t[0]=new Target("node",""+start);
-       s=new step("settle",t);
-       queue.offer(s);
-       //±éÀúÆğµã¿ÉÒÔµ½´ïµÄËùÓĞµã
-       for(int i=0;i<v_size;i++){
-        shortest[i]=adjMatrix[start][i];
-        
-        
-        if(adjMatrix[start][i]!=Integer.MAX_VALUE){
-            //Èç¹ûÕâ¸öµãÊÇÆğµã¿ÉÒÔÖ±½Ó´ïµ½µÄµã£¬Ôòsetter
-            //traverse edge start:i
-            t[0]=new Target("edge",start+":"+i);
-            s=new step("traverse",t);
-            queue.offer(s);
-            //traverse  node  i
-            t[0]=new Target("node",""+i);
-            s=new step("traverse",t);
-            queue.offer(s);
-           
-            pre[i]=start;
+	/** number of vertexes */
+	private int vSize = 0;
 
-            
-        }
-       }
-       
-       pre[start]=-1;
-       int min=Integer.MAX_VALUE;
-       int min_index=start;
+	private int start = 0;// å‡ºå‘ç‚¹
+	private int adjMatrix[][];
+	// æœ€çŸ­è·¯å¾„é•¿åº¦
+	private int[] shortest;
+	// åˆ¤æ–­è¯¥ç‚¹çš„æœ€çŸ­è·¯å¾„æ˜¯å¦æ±‚å‡º
+	private boolean[] visited;
+	// ç”¨æ¥å­˜å‚¨æœ€çŸ­è·¯å¾„ä¸Šçš„å‰é©±
+	private int[] pre;
 
-    for(int x=0;x<v_size-1;x++){
-        for(int i=0;i<v_size;i++){
-            //±éÀúÑ­»·ËùÓĞµÄµã£¬ÓÃÀ´ÕÒµ½»¹Ã»È·¶¨×î¶ÌÂ·¾¶£¬ÇÒdist×îĞ¡µÄ¶¥µãv1
-			//ÓÃminÀ´±íÊ¾×î¶Ì¾àÀë£¬ÓÃmin_indexÀ´±íÊ¾v1µÄË÷Òı
-            
-            if(visited[i]==true)
-            {
-                continue;
-            }
-                
-            else{
-                
-                if(shortest[i]<min){
-                    min=shortest[i];
-                    min_index=i;
-                }
-            }
+	public Dijstra() {
+	}
 
-        }
-        
+	public Dijstra(int[][] Matrix, int start) {
+		this.start = start;
+		this.vSize = Matrix.length;
+		this.adjMatrix = new int[vSize][Matrix[0].length];
+		for (int i = 0; i < Matrix.length; i++) {
+			for (int j = 0; j < Matrix[i].length; j++) {
+				this.adjMatrix[i][j] = Matrix[i][j];
+			}
+		}
+		shortest = new int[vSize];
+		visited = new boolean[vSize];
+		pre = new int[vSize];
 
-        visited[min_index]=true;
-        //settle   index min_index
-        t[0]=new Target("node",""+min_index);
-        s=new step("settle",t);
-        queue.offer(s);
-        //¼ì²éËùÓĞÁÚ½Ó×Ôv1µÄ±ß£¬¶ÔÓÚv1µÄÁÚ½Ó¶¥µã
-        for(int j=0;j<v_size;j++){
-            
-            if(visited[j]==false &&(adjMatrix[min_index][j]!=Integer.MAX_VALUE)){
-                //traverse edge  min_index£»j
-                t[0]=new Target("edge",min_index+":"+j);
-                s=new step("traverse",t);
-                queue.offer(s);
-                //traverse  index  j
-                t[0]=new Target("node",""+j);
-                s=new step("traverse",t);
-                queue.offer(s);
-                if((min+adjMatrix[min_index][j])<shortest[j]){
-                    shortest[j]=min+adjMatrix[min_index][j];
-                    pre[j]=min_index;
-                    
-                }
-                
-                
-            }
-        }
-        min=Integer.MAX_VALUE;
-        
-    }
-           //showInfo();
-           //È¥µô¶ÓÁĞÖĞÖØ¸´µÄÔªËØ
-           for (int i = 0; i < queue.size(); i++) {
-            if(i==queue.size()-1)
-            break;
-            else{
-                if( queue.get(i).equals( queue.get(i+1)) ){
-                    queue.remove(i);
-                }
-            }
-           
-        }
-        
-           
-           return  queue;
-       
-    }
+		for (int i = 0; i < Matrix.length; i++) {
+			visited[i] = false;
+			shortest[i] = Integer.MAX_VALUE;
+			pre[i] = -1;
+		}
 
-    //ÓÃÀ´Êä³ö×î¶ÌÂ·¾¶
-    public  String  onePath(int  index){
-        String  path="";
-        Stack<Integer>  s1=new  Stack<Integer>();
-        while(index!=-1){
-            s1.push(index);
-            index=findPre(index);
-        }
-        while(s1.empty()!=true){
-            path+=s1.pop()+",";
-        }
-        return  path;
+	}
 
-    }
-    //¸ù¾İpre±í£¬ÕÒµ½Ä³¸öµãÔÚ×î¶ÌÂ·¾¶ÉÏ¶ÔÓ¦µÄÇ°Çı
-    int  findPre(int index){
-        return  pre[index];
-    }
-    //Õ¹Ê¾¹¤¾ß±íµÄĞÅÏ¢£¬½öÓÃÓÚÄÚ²¿²âÊÔ
-    public  void  showInfo(){
-        System.out.println("Shortest path:");
-       
-        for(int i=0;i<v_size;i++){           
-                System.out.print(shortest[i]+" ");
-        }
-        System.out.println(" ");
-        System.out.println("Visited:");
-        for(int i=0;i<v_size;i++){
-                System.out.print(visited[i]+" ");
-        }
-        System.out.println(" ");
-        System.out.println("Pre:");
-        for(int i=0;i<v_size;i++){
-            System.out.print(pre[i]+" ");
-        }
-        System.out.println(" ");
+	// å¯¹çŸ©é˜µè¿›è¡Œåˆå§‹åŒ–
+	public void initialize() {
+		for (int i = 0; i < adjMatrix.length; i++) {
+			for (int j = 0; j < adjMatrix.length; j++) {
+				if ((i != j) && (adjMatrix[i][j] == 0)) {
+					adjMatrix[i][j] = Integer.MAX_VALUE;
+				}
+			}
+		}
+	}
 
-    }
+	// å¯»æ‰¾æœ€çŸ­è·¯å¾„
+	public LinkedList<Step> shortest() {
+		LinkedList<Step> queue = new LinkedList<>();
+		Step s;
+		initialize();
+		// åˆå§‹åŒ–æºèŠ‚ç‚¹
+		shortest[start] = 0;
+		visited[start] = true;
+		Target[] t = new Target[1];
+		t[0] = new Target("node", "" + start);
+		s = new Step("settle", t);
+		queue.offer(s);
+		// éå†èµ·ç‚¹å¯ä»¥åˆ°è¾¾çš„æ‰€æœ‰ç‚¹
+		for (int i = 0; i < vSize; i++) {
+			shortest[i] = adjMatrix[start][i];
 
-    //´òÓ¡¾ØÕó
-    public   void  printMatrix(){
-            for(int i=0;i<adjMatrix.length;i++){
-                for(int j=0;j<adjMatrix[i].length;j++){
-                    if(adjMatrix[i][j]==Integer.MAX_VALUE){
-                        System.out.printf("%5s","MAX");
-                    }
-                    else{
-                        System.out.printf("%5s",adjMatrix[i][j]+"");
-                    }
-                   
-                }
-                System.out.println();
-            }
+			if (adjMatrix[start][i] != Integer.MAX_VALUE) {
+				// å¦‚æœè¿™ä¸ªç‚¹æ˜¯èµ·ç‚¹å¯ä»¥ç›´æ¥è¾¾åˆ°çš„ç‚¹ï¼Œåˆ™setter
+				// traverse edge start:i
+				t[0] = new Target("edge", start + ":" + i);
+				s = new Step("traverse", t);
+				queue.offer(s);
+				// traverse node i
+				t[0] = new Target("node", "" + i);
+				s = new Step("traverse", t);
+				queue.offer(s);
 
-    }
+				pre[i] = start;
 
-    public  static void main(String[] args){
-        //DirectedWattsStrogatzGenerator  arr=new  DirectedWattsStrogatzGenerator();
-        //int[][]  arrMatrix=arr.generate(12,2,0.5);
-        //DirectedWattsStrogatzGenerator.publicPrintAdjMatrix(arrMatrix);
-        int[][]  arrMatrix={{0,1,0,3,0},{0,0,2,4,0},{0,0,0,0,1},{0,0,0,0,1},{0,0,0,0,0}};
-        Dijstra  d1= new Dijstra(arrMatrix,0);
-        d1.shortest();
-        d1.printMatrix();
-        for(int i=0;i<5;i++){
-            String  path=d1.onePath(i);
-            //LinkedList<step>  step=d1.shortest();
-            System.out.println("INDEX"+i+"'s path:"+path);
-        }
-        
+			}
+		}
 
-    }
+		pre[start] = -1;
+		int min = Integer.MAX_VALUE;
+		int min_index = start;
+
+		for (int x = 0; x < vSize - 1; x++) {
+			for (int i = 0; i < vSize; i++) {
+				// éå†å¾ªç¯æ‰€æœ‰çš„ç‚¹ï¼Œç”¨æ¥æ‰¾åˆ°è¿˜æ²¡ç¡®å®šæœ€çŸ­è·¯å¾„ï¼Œä¸”distæœ€å°çš„é¡¶ç‚¹v1
+				// ç”¨minæ¥è¡¨ç¤ºæœ€çŸ­è·ç¦»ï¼Œç”¨min_indexæ¥è¡¨ç¤ºv1çš„ç´¢å¼•
+
+				if (visited[i] == true) {
+					continue;
+				} else {
+					if (shortest[i] < min) {
+						min = shortest[i];
+						min_index = i;
+					}
+				}
+			}
+
+			visited[min_index] = true;
+			// settle index min_index
+			t[0] = new Target("node", "" + min_index);
+			s = new Step("settle", t);
+			queue.offer(s);
+			// æ£€æŸ¥æ‰€æœ‰é‚»æ¥è‡ªv1çš„è¾¹ï¼Œå¯¹äºv1çš„é‚»æ¥é¡¶ç‚¹
+			for (int j = 0; j < vSize; j++) {
+
+				if (visited[j] == false && (adjMatrix[min_index][j] != Integer.MAX_VALUE)) {
+					// traverse edge min_indexï¼›j
+					t[0] = new Target("edge", min_index + ":" + j);
+					s = new Step("traverse", t);
+					queue.offer(s);
+					// traverse index j
+					t[0] = new Target("node", "" + j);
+					s = new Step("traverse", t);
+					queue.offer(s);
+					if ((min + adjMatrix[min_index][j]) < shortest[j]) {
+						shortest[j] = min + adjMatrix[min_index][j];
+						pre[j] = min_index;
+
+					}
+
+				}
+			}
+			min = Integer.MAX_VALUE;
+
+		}
+		// å»æ‰é˜Ÿåˆ—ä¸­é‡å¤çš„å…ƒç´ 
+		for (int i = 0; i < queue.size(); i++) {
+			if (i == queue.size() - 1)
+				break;
+			else {
+				if (queue.get(i).equals(queue.get(i + 1))) {
+					queue.remove(i);
+				}
+			}
+		}
+		return queue;
+	}
+
+	/**
+	 * è¿­ä»£è·å–æœ€çŸ­è·¯å¾„
+	 * 
+	 * @param index end node index
+	 * @return æœ€çŸ­è·¯å¾„å­—ç¬¦ä¸²
+	 */
+	public String getFullPath(int index) {
+		String path = String.valueOf(index);
+
+		while (true) {
+			index = findPre(index);
+			if (index == -1)
+				break;
+			path = (String.valueOf(index) + " -> ") + path;
+		}
+		return path;
+	}
+
+	// æ ¹æ®preè¡¨ï¼Œæ‰¾åˆ°æŸä¸ªç‚¹åœ¨æœ€çŸ­è·¯å¾„ä¸Šå¯¹åº”çš„å‰é©±
+	int findPre(int index) {
+		return pre[index];
+	}
+
+	// å±•ç¤ºå·¥å…·è¡¨çš„ä¿¡æ¯ï¼Œä»…ç”¨äºå†…éƒ¨æµ‹è¯•
+	public void showInfo() {
+		System.out.println("Shortest path:");
+
+		for (int i = 0; i < vSize; i++) {
+			System.out.print(shortest[i] + " ");
+		}
+		System.out.println(" ");
+		System.out.println("Visited:");
+		for (int i = 0; i < vSize; i++) {
+			System.out.print(visited[i] + " ");
+		}
+		System.out.println(" ");
+		System.out.println("Pre:");
+		for (int i = 0; i < vSize; i++) {
+			System.out.print(pre[i] + " ");
+		}
+		System.out.println(" ");
+
+	}
+
+	public String toMatrix() {
+		String matrix = "";
+		for (int i = 0; i < adjMatrix.length; i++) {
+			for (int j = 0; j < adjMatrix[i].length; j++) {
+				if (adjMatrix[i][j] == Integer.MAX_VALUE) {
+					matrix += String.format("%5s", "MAX");
+				} else {
+					matrix += String.format("%5s ", adjMatrix[i][j]);
+				}
+			}
+			matrix += "\n";
+		}
+		return matrix;
+	}
 }
