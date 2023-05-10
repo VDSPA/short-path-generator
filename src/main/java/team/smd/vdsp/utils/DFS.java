@@ -10,18 +10,26 @@ import java.util.Arrays;
 
 public class DFS {
 
-	/** number of vertexes */
+	/**
+	 * number of vertexes
+	 */
 	private int vSize = 0;
 
-	/** start pot id */
+	/**
+	 * start pot id
+	 */
 	private int start = 0;
 
 	private int adjMatrix[][];
 
-	/** short-path of current dfs */
+	/**
+	 * short-path of current dfs
+	 */
 	private ArrayList<Integer> shortest = new ArrayList<>();
 
-	/** 用来存储当前最短路径的长度 */
+	/**
+	 * 用来存储当前最短路径的长度
+	 */
 	private int shortestDis;
 
 	public DFS() {
@@ -51,7 +59,7 @@ public class DFS {
 
 	/**
 	 * 找到两个点之间的所有路径，并保存下最小的那条路径
-	 * 
+	 *
 	 * @param start 起点
 	 * @param end   终点
 	 * @return 遍历信息
@@ -97,7 +105,6 @@ public class DFS {
 	}
 
 	/**
-	 * 
 	 * @param u          起点
 	 * @param end        终点
 	 * @param visited
@@ -106,7 +113,7 @@ public class DFS {
 	 * @return
 	 */
 	public LinkedList<Step> dfsShortest(int u, int end, boolean[] visited, ArrayList<Integer> pathList,
-			int[] pathLength) {
+										int[] pathLength) {
 		LinkedList<Step> queue = new LinkedList<>();
 		Step s;
 		visited[u] = true;
@@ -133,8 +140,8 @@ public class DFS {
 
 		for (int v = 0; v < vSize; v++) {
 			if (adjMatrix[u][v] != 0
-					&& !visited[v]
-					&& adjMatrix[u][v] != Integer.MAX_VALUE) {
+				&& !visited[v]
+				&& adjMatrix[u][v] != Integer.MAX_VALUE) {
 
 				// 存在边且尚未被访问过，继续遍历
 				pathList.add(v);
@@ -164,7 +171,7 @@ public class DFS {
 	/**
 	 * 从 shortest 获得最短路径信息
 	 * 需要在
-	 * 
+	 *
 	 * @param start
 	 * @param end
 	 * @return 最短路径信息
@@ -210,5 +217,4 @@ public class DFS {
 		}
 		return matrix;
 	}
-
 }

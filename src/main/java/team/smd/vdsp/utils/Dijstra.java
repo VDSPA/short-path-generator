@@ -1,12 +1,15 @@
 package team.smd.vdsp.utils;
 
 import java.util.LinkedList;
+
 import team.smd.vdsp.models.Target;
 import team.smd.vdsp.models.Step;
 
 public class Dijstra {
 
-	/** number of vertexes */
+	/**
+	 * number of vertexes
+	 */
 	private int vSize = 0;
 
 	private int start = 0;// 出发点
@@ -147,7 +150,7 @@ public class Dijstra {
 
 	/**
 	 * 迭代获取最短路径
-	 * 
+	 *
 	 * @param index end node index
 	 * @return 最短路径字符串
 	 */
