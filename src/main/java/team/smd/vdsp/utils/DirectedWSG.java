@@ -168,18 +168,4 @@ public class DirectedWSG {
 		generateWeightedAdjMatrix(adjMatrix, weight);
 		return getAdjM_int();
 	}
-
-	/**
-	 * print the AdjMatrix
-	 */
-	private static void printAdjMatrix() {
-		int n = adjM_int.length;
-
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				System.out.printf("%2d ", adjM_int[i][j]);
-			}
-			System.out.println();
-		}
-	}
 }
