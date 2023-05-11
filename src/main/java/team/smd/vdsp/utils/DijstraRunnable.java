@@ -15,7 +15,7 @@ public class DijstraRunnable extends AlgorithmRunnable {
 	 * @param setting
 	 * @param result
 	 */
-	public DijstraRunnable(Setting setting, LinkedList<Step>[] result) {
+	public DijstraRunnable(Setting setting, LinkedList<Step> result) {
 		super(setting, result);
 		init();
 	}
@@ -29,6 +29,6 @@ public class DijstraRunnable extends AlgorithmRunnable {
 
 	@Override
 	public void run() {
-		result[1] = dijstra.shortest();
+		result.addAll(dijstra.shortest());
 	}
 }
