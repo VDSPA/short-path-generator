@@ -21,21 +21,22 @@ public class DijstraTest {
 	}
 
 	@Test
-	public void showAllPaths() {
+	public void showPath() {
 		d.shortest();
-		for (int i = 0; i < 5; i++) {
-			System.out.println(d.getFullPath(i));
-		}
+		System.out.println(d.allPath);
+
 	}
 
 	@Test
-	public void showSteps() {
-		LinkedList<Step> queue = d.shortest();
-		// 输出队列中的值
-		while (queue.isEmpty() != true) {
-			Step head = queue.poll();
-			System.out.println(head);
-		}
+	public void showQueue() {
+		d.shortest();
+		System.out.println(d.stepQueue);
+	}
+
+	@Test
+	public void showClass() {
+		d.shortest();
+		System.out.println(d.toString());
 	}
 
 }
