@@ -3,6 +3,7 @@ package team.smd.vdsp.utils;
 import java.util.LinkedList;
 import org.junit.Test;
 import team.smd.vdsp.models.Step;
+import team.smd.vdsp.utils.DFS;
 
 public class DFSTest {
 	public final int[][] matrix = {
@@ -21,25 +22,22 @@ public class DFSTest {
 	}
 
 	@Test
-	public void showAllPaths() {
-		System.out.printf("Show the shortest path between start node(%d) and other node:\n", start);
-		for (int i = 0; i < d.getVSize(); i++) {
-			if (i != start) {
-				d.shortest(start, i);
-				System.out.println(d.getFullPath(start, i));
-			}
-		}
+	public void showQueue() {
+		d.shortest();
+		System.out.println(d.stepQueue);
+
 	}
 
 	@Test
-	public void showSteps() {
-		LinkedList<Step> queue = d.shortest(start, 3);
-		queue.addAll(d.shortest(start, 2));
-		// 输出队列中的值
-		while (queue.isEmpty() != true) {
-			Step head = queue.poll();
-			System.out.println(head);
-		}
+	public void showPath() {
+		d.shortest();
+		System.out.println(d.allPath);
+	}
+
+	@Test
+	public void showClass() {
+		d.shortest();
+		System.out.println(d.toString());
 	}
 
 }
