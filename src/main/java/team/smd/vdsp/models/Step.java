@@ -6,14 +6,15 @@ public class Step {
 
 	/**
 	 * Unified oprand for one step
-	 * 
+	 * <p>
 	 * "traverse" | "settle" | "reset"
 	 */
 	private String type;
 
 	/**
 	 * Batch of operating targets
-	 * 
+	 * <p>
+	 * <p>
 	 * for update one or more nodes'state simultaneously
 	 */
 	private Target[] targets;
@@ -30,13 +31,13 @@ public class Step {
 
 	/**
 	 * Override for comparing objects
-	 * 
+	 *
 	 * @param otherStep
 	 * @return
 	 */
 	public boolean equals(Step otherStep) {
 		if (otherStep.type.equals(this.type)
-				&& Arrays.equals(this.getTargets(), otherStep.getTargets())) {
+			&& Arrays.equals(this.getTargets(), otherStep.getTargets())) {
 			return true;
 		} else {
 			return false;
