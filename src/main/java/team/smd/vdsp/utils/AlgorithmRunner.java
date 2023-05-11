@@ -9,7 +9,11 @@ import team.smd.vdsp.models.Step;
 
 public class AlgorithmRunner {
 
-	// store the steps
+	/**
+	 * store the steps
+	 * DFS settled in 0
+	 * Dijstra settled in 1
+	 */
 	private LinkedList<Step>[] result;
 
 	// Storing the information of the graph
@@ -48,11 +52,13 @@ public class AlgorithmRunner {
 		ExecutorService executorService = Executors.newFixedThreadPool(2);
 
 		result = new LinkedList[2];
+		result[0] = new LinkedList<Step>();
+		result[1] = new LinkedList<Step>();
 
 		//If instance setting is not empty, submit thread task
 		if (setting != null) {
-			executorService.submit(new DFSRunnable(setting, result));
-			executorService.submit(new DijstraRunnable(setting, result));
+			executorService.submit(new DFSRunnable(setting, result[0]));
+			executorService.submit(new DijstraRunnable(setting, result[1]));
 		}
 
 		executorService.shutdown();
