@@ -6,15 +6,12 @@ public class Step {
 
 	/**
 	 * Unified oprand for one step
-	 * <p>
 	 * "traverse" | "settle" | "reset"
 	 */
 	private String type;
 
 	/**
 	 * Batch of operating targets
-	 * <p>
-	 * <p>
 	 * for update one or more nodes'state simultaneously
 	 */
 	private Target[] targets;
@@ -70,7 +67,6 @@ public class Step {
 
 	public static void main(String[] args) {
 		/* step internal test */
-
 	}
 
 }
