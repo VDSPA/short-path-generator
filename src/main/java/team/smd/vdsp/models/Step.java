@@ -32,9 +32,14 @@ public class Step {
 	 * @param otherStep
 	 * @return
 	 */
-	public boolean equals(Step otherStep) {
-		if (otherStep.type.equals(this.type)
-			&& Arrays.equals(this.getTargets(), otherStep.getTargets())) {
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		Step target = (Step) obj;
+		if (target.type.equals(this.type)
+			&& Arrays.equals(this.getTargets(), target.getTargets())) {
 			return true;
 		} else {
 			return false;
