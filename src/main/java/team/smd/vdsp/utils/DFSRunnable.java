@@ -29,16 +29,8 @@ class DFSRunnable extends AlgorithmRunnable {
 
 	@Override
 	public void run() {
-		
-		int start = setting.getStart();
-		int vNumber = dfs.getVSize();
-
-		for (int i = 0; i < vNumber; i++) {
-			if (i != start) {
-				LinkedList<Step> path = dfs.shortest(start, i);
-				result.addAll(path);
-			}
-		}
+		dfs.shortest();
+		result.addAll(dfs.getAllSteps());
 	}
 }
 
