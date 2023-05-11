@@ -29,6 +29,7 @@ public class DijstraRunnable extends AlgorithmRunnable {
 
 	@Override
 	public void run() {
-		result.addAll(dijstra.shortest());
+		dijstra.shortest();
+		result.addAll(dijstra.getAllSteps());
 	}
 }
