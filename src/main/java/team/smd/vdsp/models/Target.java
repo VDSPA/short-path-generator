@@ -27,23 +27,17 @@ public class Target {
 		this.id = id;
 	}
 
-	public boolean equals(Target otherTarget) {
-		if ((otherTarget.id.equals(this.id)) && (otherTarget.role.equals(this.role))) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null || getClass() != obj.getClass())
 			return false;
 		Target target = (Target) obj;
-		if (this.id != target.id)
+		if ((target.id.equals(this.id)) && (target.role.equals(this.role))) {
+			return true;
+		} else {
 			return false;
-		return this.role.equals(target.role);
+		}
 	}
 
 	public void setRole(String r) {
