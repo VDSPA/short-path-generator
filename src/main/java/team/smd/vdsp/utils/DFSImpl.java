@@ -92,7 +92,7 @@ public class DFSImpl extends ShortestPath {
 		// array,
 		// And add the path to the allPath member variable
 		if (shortest.size() <= 0) {
-			// this.allPath.add("");
+
 		} else {
 			String path = start + "";
 			for (int i = 1; i < shortest.size(); i++) {
