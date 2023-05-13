@@ -98,7 +98,7 @@ public class BFS extends ShortestPath {
 		}
 		// Save the shortest path information in allPath
 		for (int end = 0; end < vSize; end++) {
-			if (end == start)
+			if (end == start || visited[end] == false)
 				continue;
 			else {
 				this.allPath.add(start + " - " + end + " : " + getOnePath(end) + "\n");
