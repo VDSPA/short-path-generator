@@ -30,6 +30,12 @@ public class FloydTest {
 	}
 
 	@Test
+	public void showAllDis() {
+		f.shortest();
+		System.out.println(Arrays.toString(f.getAllDis()));
+	}
+
+	@Test
 	public void showClass() {
 		f.shortest();
 		System.out.println(f.toString());
