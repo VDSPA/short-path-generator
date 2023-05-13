@@ -40,7 +40,7 @@ public class DFS extends ShortestPath {
 			} else {
 				dfsImpl.shortest();
 				this.stepQueue.addAll(dfsImpl.stepQueue);
-				this.allPath.add(dfsImpl.allPath.get(0));
+				this.allPath.addAll(dfsImpl.allPath);
 				shortestDis[end] = dfsImpl.getShortestDis();
 			}
 		}
