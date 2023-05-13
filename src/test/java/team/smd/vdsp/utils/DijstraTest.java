@@ -3,6 +3,7 @@ package team.smd.vdsp.utils;
 import java.util.LinkedList;
 import org.junit.Test;
 import team.smd.vdsp.models.Step;
+import java.util.Arrays;
 
 public class DijstraTest {
 	public final int[][] matrix = {
@@ -31,6 +32,12 @@ public class DijstraTest {
 	public void showQueue() {
 		d.shortest();
 		System.out.println(d.stepQueue);
+	}
+
+	@Test
+	public void showAllDis() {
+		d.shortest();
+		System.out.println(Arrays.toString(d.getAllDis()));
 	}
 
 	@Test
