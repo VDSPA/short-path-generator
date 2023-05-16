@@ -68,9 +68,18 @@ public class Floyd extends ShortestPath {
 	}
 
 	/**
+	 * get all shortest distances
+	 */
+	public int[] getAllDis() {
+		return shortestDis;
+	}
+
+	/**
 	 * Get the shortest path through multiple loops
 	 */
 	public void shortest() {
+		this.stepQueue.clear();
+		this.allPath.clear();
 		for (int k = 0; k < vSize; k++) {
 			for (int i = 0; i < vSize; i++) {
 				for (int j = 0; j < vSize; j++) {
@@ -87,7 +96,7 @@ public class Floyd extends ShortestPath {
 			shortestDis[i] = distance[start][i];
 		}
 		for (int end = 0; end < vSize; end++) {
-			if (start == end)
+			if (start == end || (path[start][end] == -1 && adjMatrix[start][end] == Integer.MAX_VALUE))
 				continue;
 			this.allPath.add(start + " - " + end + ":" + getOnePath(this.path, start, end) + " " + end + "\n");
 		}

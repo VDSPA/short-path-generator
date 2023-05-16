@@ -1,6 +1,7 @@
 package team.smd.vdsp.utils;
 
 import org.junit.Test;
+import java.util.Arrays;
 
 public class DFSTest {
 	public final int[][] matrix = {
@@ -19,6 +20,12 @@ public class DFSTest {
 	}
 
 	@Test
+	public void showPath() {
+		d.shortest();
+		System.out.println(d.allPath);
+	}
+
+	@Test
 	public void showQueue() {
 		d.shortest();
 		System.out.println(d.stepQueue);
@@ -26,9 +33,9 @@ public class DFSTest {
 	}
 
 	@Test
-	public void showPath() {
+	public void showAllDis() {
 		d.shortest();
-		System.out.println(d.allPath);
+		System.out.println(Arrays.toString(d.getAllDis()));
 	}
 
 	@Test

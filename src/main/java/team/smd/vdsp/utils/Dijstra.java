@@ -49,6 +49,8 @@ public class Dijstra extends ShortestPath {
 	 * find the shortest path
 	 */
 	public void shortest() {
+		this.stepQueue.clear();
+		this.allPath.clear();
 		Step stepTemp;
 		// Initialize the source node
 		distance[start] = 0;
@@ -137,7 +139,7 @@ public class Dijstra extends ShortestPath {
 
 		// Save the shortest path information in allPath
 		for (int end = 0; end < vSize; end++) {
-			if (end == start)
+			if (end == start || visited[end] == false)
 				continue;
 			else {
 				this.allPath.add(start + " - " + end + " : " + getOnePath(end) + "\n");
@@ -172,6 +174,13 @@ public class Dijstra extends ShortestPath {
 	 */
 	int findPre(int index) {
 		return pre[index];
+	}
+
+	/**
+	 * get all shortest distances
+	 */
+	public int[] getAllDis() {
+		return distance;
 	}
 
 	/**

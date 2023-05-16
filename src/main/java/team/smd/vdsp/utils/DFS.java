@@ -1,6 +1,9 @@
 package team.smd.vdsp.utils;
 
 public class DFS extends ShortestPath {
+
+	int[] shortestDis = new int[vSize];
+
 	public DFS() {
 	}
 
@@ -27,16 +30,27 @@ public class DFS extends ShortestPath {
 	 * Find the shortest path from the start to all other points
 	 */
 	public void shortest() {
-
+		this.stepQueue.clear();
+		this.allPath.clear();
 		for (int end = 0; end < vSize; end++) {
 			DFSImpl dfsImpl = new DFSImpl(this.adjMatrix, this.start, end);
-			if (end == this.start)
+			if (end == this.start) {
+				shortestDis[end] = 0;
 				continue;
-			else {
+			} else {
 				dfsImpl.shortest();
 				this.stepQueue.addAll(dfsImpl.stepQueue);
-				this.allPath.add(dfsImpl.allPath.get(0));
+				this.allPath.addAll(dfsImpl.allPath);
+				shortestDis[end] = dfsImpl.getShortestDis();
 			}
 		}
 	}
+
+	/**
+	 * get all shortest distances
+	 */
+	public int[] getAllDis() {
+		return shortestDis;
+	}
+
 }
