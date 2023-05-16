@@ -45,10 +45,7 @@ public class DFSImpl extends ShortestPath {
 	 * record the shortest path's traverse and path infomation
 	 */
 	public void shortest() {
-		this.stepQueue.clear();
-		this.allPath.clear();
-		shortestDis = Integer.MAX_VALUE;
-
+		resetParam();
 		boolean[] visited = new boolean[vSize];// Whether the node has been visited
 		ArrayList<Integer> pathList = new ArrayList<>();// store the current path
 		int[] pathLength = new int[vSize];
@@ -101,6 +98,16 @@ public class DFSImpl extends ShortestPath {
 			this.allPath.add(start + " - " + end + " : " + path + "\n");
 		}
 
+	}
+
+	/**
+	 * Reset some member variables that need to be accumulated
+	 */
+	public void resetParam() {
+		this.stepQueue.clear();
+		this.allPath.clear();
+		shortestDis = Integer.MAX_VALUE;
+		shortest = new ArrayList<>();
 	}
 
 	/**
