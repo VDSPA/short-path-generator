@@ -30,8 +30,7 @@ public class DFS extends ShortestPath {
 	 * Find the shortest path from the start to all other points
 	 */
 	public void shortest() {
-		this.stepQueue.clear();
-		this.allPath.clear();
+		resetParam();
 		for (int end = 0; end < vSize; end++) {
 			DFSImpl dfsImpl = new DFSImpl(this.adjMatrix, this.start, end);
 			if (end == this.start) {
@@ -51,6 +50,15 @@ public class DFS extends ShortestPath {
 	 */
 	public int[] getAllDis() {
 		return shortestDis;
+	}
+
+	/**
+	 * Reset some member variables that need to be accumulated
+	 */
+	public void resetParam() {
+		this.stepQueue.clear();
+		this.allPath.clear();
+		shortestDis = new int[vSize];
 	}
 
 }

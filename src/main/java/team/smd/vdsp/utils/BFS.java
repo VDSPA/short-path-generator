@@ -24,9 +24,6 @@ public class BFS extends ShortestPath {
 
 	BFS(int[][] Matrix, int start) {
 		super(Matrix, start);
-		distance = new int[vSize];
-		visited = new boolean[vSize];
-		pre = new int[vSize];
 		this.adjMatrix = new int[vSize][Matrix[0].length];
 
 		for (int i = 0; i < Matrix.length; i++) {
@@ -41,17 +38,15 @@ public class BFS extends ShortestPath {
 				}
 			}
 		}
-		Arrays.fill(distance, Integer.MAX_VALUE);
-		Arrays.fill(pre, -1);
-		Arrays.fill(visited, false);
+		resetParam();
+
 	}
 
 	/**
 	 * find shortest path
 	 */
 	public void shortest() {
-		this.stepQueue.clear();
-		this.allPath.clear();
+		resetParam();
 		bfsQueue.offer(start);
 		this.distance[start] = 0;
 		// traverse start
@@ -104,6 +99,21 @@ public class BFS extends ShortestPath {
 				this.allPath.add(start + " - " + end + " : " + getOnePath(end) + "\n");
 			}
 		}
+
+	}
+
+	/**
+	 * Reset some member variables that need to be accumulated
+	 */
+	public void resetParam() {
+		this.stepQueue.clear();
+		this.allPath.clear();
+		distance = new int[vSize];
+		visited = new boolean[vSize];
+		pre = new int[vSize];
+		Arrays.fill(distance, Integer.MAX_VALUE);
+		Arrays.fill(pre, -1);
+		Arrays.fill(visited, false);
 
 	}
 

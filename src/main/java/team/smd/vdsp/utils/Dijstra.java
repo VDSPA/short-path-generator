@@ -25,15 +25,7 @@ public class Dijstra extends ShortestPath {
 				this.adjMatrix[i][j] = Matrix[i][j];
 			}
 		}
-		distance = new int[vSize];
-		visited = new boolean[vSize];
-		pre = new int[vSize];
-
-		for (int i = 0; i < Matrix.length; i++) {
-			visited[i] = false;
-			distance[i] = Integer.MAX_VALUE;
-			pre[i] = -1;
-		}
+		resetParam();
 
 		for (int i = 0; i < adjMatrix.length; i++) {
 			for (int j = 0; j < adjMatrix.length; j++) {
@@ -49,8 +41,7 @@ public class Dijstra extends ShortestPath {
 	 * find the shortest path
 	 */
 	public void shortest() {
-		this.stepQueue.clear();
-		this.allPath.clear();
+		resetParam();
 		Step stepTemp;
 		// Initialize the source node
 		distance[start] = 0;
@@ -145,6 +136,23 @@ public class Dijstra extends ShortestPath {
 				this.allPath.add(start + " - " + end + " : " + getOnePath(end) + "\n");
 			}
 		}
+	}
+
+	/**
+	 * Reset some member variables that need to be accumulated
+	 */
+	public void resetParam() {
+		this.stepQueue.clear();
+		this.allPath.clear();
+		distance = new int[vSize];
+		visited = new boolean[vSize];
+		pre = new int[vSize];
+		for (int i = 0; i < vSize; i++) {
+			visited[i] = false;
+			distance[i] = Integer.MAX_VALUE;
+			pre[i] = -1;
+		}
+
 	}
 
 	/**
