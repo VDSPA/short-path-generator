@@ -8,7 +8,7 @@ public class DFS extends ShortestPath {
 	}
 
 	public DFS(int[][] Matrix, int start) {
-		super(Matrix, start);
+		super(Matrix, start, "dfs");
 		this.adjMatrix = new int[vSize][Matrix[0].length];
 		for (int i = 0; i < Matrix.length; i++) {
 			for (int j = 0; j < Matrix[i].length; j++) {

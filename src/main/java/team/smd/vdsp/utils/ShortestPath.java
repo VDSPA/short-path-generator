@@ -33,11 +33,11 @@ public abstract class ShortestPath {
 		this.vSize = adjMatrix.length;
 	}
 
-	public ShortestPath(int adjMatrix[][], int start) {
+	public ShortestPath(int adjMatrix[][], int start, String name) {
 		this.adjMatrix = adjMatrix;
 		this.start = start;
 		this.vSize = adjMatrix.length;
-
+		this.name = name;
 	}
 
 	/**
