@@ -2,47 +2,49 @@ package team.smd.vdsp.utils;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import team.smd.vdsp.models.Setting;
 import team.smd.vdsp.models.Step;
 
 import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class AlgorithmRunnerTest {
-	public final int[][] matrix = {
+	public static int[][] matrix = {
 		{0, 1, 0, 3, 0},
 		{0, 0, 2, 4, 0},
 		{0, 0, 0, 0, 1},
 		{0, 0, 0, 0, 1},
 		{0, 0, 0, 0, 0}
 	};
-	public final int start = 0;
-	public final AlgorithmRunner algorithmRunner = new AlgorithmRunner(new Setting(matrix, start));
+	public static int start = 0;
+	public static AlgorithmRunner algorithmRunner = new AlgorithmRunner(new Setting(matrix, start));
+
+	/** Multi-thread results */
+	public static ArrayList<LinkedList<Step>> results;
+
+	@BeforeClass
+	public static void init() {
+		results = algorithmRunner.runAlgorithms();
+	}
 	
 	@Test
-	public void showResult() {
+	public void checkSetting() {
+		Setting setting = algorithmRunner.getSetting();
+		assertEquals(setting, algorithmRunner.getSetting());
+	}
 
-		LinkedList<Step>[] result = algorithmRunner.runAlgorithms();
+	@Test
+	public void checkConcurrentResults() {
+		for (int i = 0; i < results.size(); i++) {
+			ShortestPath algorithm = algorithmRunner.algorithms.get(i);
 
-		DFS dfs = new DFS(matrix, start);
-		LinkedList<Step> dfsResult = new LinkedList<>();
-		dfs.shortest();
-		dfsResult.addAll(dfs.getAllSteps());
+			// Single algorithm result
+			algorithm.shortest();
+			LinkedList<Step> result = algorithm.getAllSteps();
 
-		Dijstra dij = new Dijstra(matrix, start);
-		dij.shortest();
-		LinkedList<Step> dijResult = new LinkedList<>();
-		dijResult.addAll(dij.getAllSteps());
-
-		assertEquals(result[0].size(), dfsResult.size());
-
-		for (int i = 0; i < result[0].size(); i++) {
-			assertEquals(result[0].get(i), dfsResult.get(i));
+			assertEquals(result, results.get(i));
 		}
-
-		for (int i = 0; i < result[1].size(); i++) {
-			assertEquals(result[1].get(i), dijResult.get(i));
-		}
-
 	}
 }
