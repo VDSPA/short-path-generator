@@ -41,29 +41,7 @@ public class Floyd extends ShortestPath {
 
 	Floyd(int[][] Matrix, int start) {
 		super(Matrix, start);
-		distance = new int[vSize][Matrix[0].length];
-		path = new int[vSize][Matrix[0].length];
-		shortestDis = new int[vSize];
-		// Initialize the path matrix
-		for (int i = 0; i < path.length; i++) {
-			for (int j = 0; j < path[i].length; j++) {
-				path[i][j] = -1;
-			}
-		}
-		for (int i = 0; i < Matrix.length; i++) {
-			for (int j = 0; j < Matrix[i].length; j++) {
-				this.adjMatrix[i][j] = Matrix[i][j];
-				this.distance[i][j] = Matrix[i][j];// Specific to Floyd's algorithm
-			}
-		}
-		for (int i = 0; i < adjMatrix.length; i++) {
-			for (int j = 0; j < adjMatrix.length; j++) {
-				if ((i != j) && (adjMatrix[i][j] == 0)) {
-					adjMatrix[i][j] = Integer.MAX_VALUE;
-					distance[i][j] = Integer.MAX_VALUE;// Specific to Floyd's algorithm
-				}
-			}
-		}
+		resetParam();
 
 	}
 
@@ -78,8 +56,7 @@ public class Floyd extends ShortestPath {
 	 * Get the shortest path through multiple loops
 	 */
 	public void shortest() {
-		this.stepQueue.clear();
-		this.allPath.clear();
+		resetParam();
 		for (int k = 0; k < vSize; k++) {
 			for (int i = 0; i < vSize; i++) {
 				for (int j = 0; j < vSize; j++) {
@@ -153,6 +130,38 @@ public class Floyd extends ShortestPath {
 		setEdge = removeDuplicates(setEdge);
 
 		offerStep(setVertex, setEdge, "settle");
+
+	}
+
+	/**
+	 * Reset some member variables that need to be accumulated
+	 */
+	public void resetParam() {
+		this.stepQueue.clear();
+		this.allPath.clear();
+		distance = new int[vSize][adjMatrix[0].length];
+		path = new int[vSize][adjMatrix[0].length];
+		shortestDis = new int[vSize];
+		// Initialize the path matrix
+		for (int i = 0; i < path.length; i++) {
+			for (int j = 0; j < path[i].length; j++) {
+				path[i][j] = -1;
+			}
+		}
+		for (int i = 0; i < adjMatrix.length; i++) {
+			for (int j = 0; j < adjMatrix[i].length; j++) {
+				this.adjMatrix[i][j] = adjMatrix[i][j];
+				this.distance[i][j] = adjMatrix[i][j];// Specific to Floyd's algorithm
+			}
+		}
+		for (int i = 0; i < adjMatrix.length; i++) {
+			for (int j = 0; j < adjMatrix.length; j++) {
+				if ((i != j) && (adjMatrix[i][j] == 0)) {
+					adjMatrix[i][j] = Integer.MAX_VALUE;
+					distance[i][j] = Integer.MAX_VALUE;// Specific to Floyd's algorithm
+				}
+			}
+		}
 
 	}
 
