@@ -2,6 +2,7 @@ package team.smd.vdsp.utils;
 
 import team.smd.vdsp.models.Setting;
 import team.smd.vdsp.models.Step;
+import team.smd.vdsp.models.Result;
 
 import java.util.LinkedList;
 
@@ -13,7 +14,7 @@ import java.util.LinkedList;
 class AlgorithmRunnable implements Runnable {
 
 	/** Memory to be stored the result */
-	protected LinkedList<Step> result;
+	protected Result result;
 
 	/** custom settings for running the algorithm */
 	protected Setting setting;
@@ -23,7 +24,7 @@ class AlgorithmRunnable implements Runnable {
 	public AlgorithmRunnable() {
 	}
 
-	public AlgorithmRunnable(ShortestPath algorithm, Setting setting, LinkedList<Step> result) {
+	public AlgorithmRunnable(ShortestPath algorithm, Setting setting, Result result) {
 		this.setting = setting;
 		this.result = result;
 		this.algorithm = algorithm;
@@ -32,7 +33,9 @@ class AlgorithmRunnable implements Runnable {
 	@Override
 	public void run() {
 		algorithm.shortest();
-		result.addAll(algorithm.getAllSteps());
+		LinkedList<Step> steps = new LinkedList<>();
+		steps.addAll(algorithm.getAllSteps());
+		this.result.setSteps(steps);
 	}
 
 }

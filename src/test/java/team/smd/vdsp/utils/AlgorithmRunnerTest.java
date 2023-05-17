@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import team.smd.vdsp.models.Result;
 import team.smd.vdsp.models.Setting;
 import team.smd.vdsp.models.Step;
 
@@ -22,7 +24,7 @@ public class AlgorithmRunnerTest {
 	public static AlgorithmRunner algorithmRunner = new AlgorithmRunner(new Setting(matrix, start));
 
 	/** Multi-thread results */
-	public static ArrayList<LinkedList<Step>> results;
+	public static ArrayList<Result> results;
 
 	@BeforeClass
 	public static void init() {
@@ -44,7 +46,7 @@ public class AlgorithmRunnerTest {
 			algorithm.shortest();
 			LinkedList<Step> result = algorithm.getAllSteps();
 
-			assertEquals(result, results.get(i));
+			assertEquals(result, results.get(i).getSteps());
 		}
 	}
 }

@@ -18,6 +18,9 @@ public abstract class ShortestPath {
 	/** numbers of vertexes */
 	int vSize;
 
+	/** algorithm's name */
+	private String name;
+
 	/** steps queue */
 	LinkedList<Step> stepQueue = new LinkedList<Step>();
 
@@ -70,6 +73,14 @@ public abstract class ShortestPath {
 	 */
 	public int getVSize() {
 		return vSize;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
