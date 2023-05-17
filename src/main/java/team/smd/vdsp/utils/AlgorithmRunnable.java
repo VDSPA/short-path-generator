@@ -5,34 +5,34 @@ import team.smd.vdsp.models.Step;
 
 import java.util.LinkedList;
 
-abstract class AlgorithmRunnable implements Runnable {
+/**
+ * Algorithm wrapper for running algorithm 
+ * in thread, and control to write result 
+ * to the given variable `result`
+ */
+class AlgorithmRunnable implements Runnable {
 
-	// Storing the step of the dfs algorithm
+	/** Memory to be stored the result */
 	protected LinkedList<Step> result;
 
-	// Storing the information of the graph
+	/** custom settings for running the algorithm */
 	protected Setting setting;
 
-	/**
-	 * Empty constructor
-	 */
+	protected ShortestPath algorithm;
+
 	public AlgorithmRunnable() {
 	}
 
-	/**
-	 * constructor
-	 *
-	 * @param setting
-	 * @param result
-	 */
-	public AlgorithmRunnable(Setting setting, LinkedList<Step> result) {
+	public AlgorithmRunnable(ShortestPath algorithm, Setting setting, LinkedList<Step> result) {
 		this.setting = setting;
 		this.result = result;
+		this.algorithm = algorithm;
 	}
 
-	/**
-	 * Initialize Algorithm Class
-	 */
-	private void init() {
+	@Override
+	public void run() {
+		algorithm.shortest();
+		result.addAll(algorithm.getAllSteps());
 	}
+
 }

@@ -1,5 +1,7 @@
 package team.smd.vdsp.models;
 
+import java.util.Arrays;
+
 public class Setting {
 	// is directed graph or not
 	private boolean isDirected;
@@ -75,5 +77,23 @@ public class Setting {
 		isDirected = directed;
 		this.matrix = matrix;
 		this.start = start;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Setting other = (Setting) obj;
+		if (isDirected != other.isDirected)
+			return false;
+		if (!Arrays.deepEquals(matrix, other.matrix))
+			return false;
+		if (start != other.start)
+			return false;
+		return true;
 	}
 }
