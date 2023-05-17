@@ -36,13 +36,12 @@ public class Floyd extends ShortestPath {
 	/** the middle edge from k to j */
 	ArrayList<String> kjEdge = new ArrayList<>();
 
-	Floyd() {
+	public Floyd() {
 	}
 
-	Floyd(int[][] Matrix, int start) {
-		super(Matrix, start);
+	public Floyd(int[][] Matrix, int start) {
+		super(Matrix, start, "floyd");
 		resetParam();
-
 	}
 
 	/**
