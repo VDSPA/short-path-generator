@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 import team.smd.vdsp.models.Setting;
 import team.smd.vdsp.models.Result;
+import team.smd.vdsp.models.Step;
 
 public class AlgorithmRunner {
 
@@ -53,7 +54,7 @@ public class AlgorithmRunner {
 
 		if (setting != null) {
 			for (int i = 0; i < this.algorithms.size(); i++) {
-				results.add(new Result(algorithms.get(i).getName(), new LinkedList<>()));
+				results.add(new Result(algorithms.get(i).getName(), new LinkedList<Step>()));
 				executorService.submit(new AlgorithmRunnable(algorithms.get(i), setting, results.get(i)));
 			}
 		}
