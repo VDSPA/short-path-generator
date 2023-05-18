@@ -70,8 +70,4 @@ public class Step {
 		return result;
 	}
 
-	public static void main(String[] args) {
-		/* step internal test */
-	}
-
 }

@@ -17,11 +17,11 @@ public class DFSImpl extends ShortestPath {
 	/** the end vertex */
 	private int end;
 
-	DFSImpl() {
+	public DFSImpl() {
 	}
 
-	DFSImpl(int[][] Matrix, int start, int end) {
-		super(Matrix, start);
+	public DFSImpl(int[][] Matrix, int start, int end) {
+		super(Matrix, start, "dfsImpl");
 		this.end = end;
 		this.adjMatrix = new int[vSize][Matrix[0].length];
 		for (int i = 0; i < Matrix.length; i++) {

@@ -19,11 +19,11 @@ public class BFS extends ShortestPath {
 	/** BFS queue */
 	private LinkedList<Integer> bfsQueue = new LinkedList<Integer>();
 
-	BFS() {
+	public BFS() {
 	}
 
-	BFS(int[][] Matrix, int start) {
-		super(Matrix, start);
+	public BFS(int[][] Matrix, int start) {
+		super(Matrix, start, "bfs");
 		this.adjMatrix = new int[vSize][Matrix[0].length];
 
 		for (int i = 0; i < Matrix.length; i++) {

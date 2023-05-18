@@ -7,12 +7,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import team.smd.vdsp.models.Setting;
+import team.smd.vdsp.models.Result;
 import team.smd.vdsp.models.Step;
 
 public class AlgorithmRunner {
 
 	/** Traversing Steps of all algorithm */
-	private ArrayList<LinkedList<Step>> results;
+	private ArrayList<Result> results;
 
 	// Storing the information of the graph
 	private Setting setting;
@@ -30,7 +31,7 @@ public class AlgorithmRunner {
 		));
 	}
 
-	public ArrayList<LinkedList<Step>> getResults() {
+	public ArrayList<Result> getResults() {
 		return results;
 	}
 
@@ -43,7 +44,7 @@ public class AlgorithmRunner {
 	 *
 	 * @return result
 	 */
-	public ArrayList<LinkedList<Step>> runAlgorithms() {
+	public ArrayList<Result> runAlgorithms() {
 
 		// Create thread pool
 		ExecutorService executorService = Executors.newFixedThreadPool(this.algorithms.size());
@@ -53,7 +54,7 @@ public class AlgorithmRunner {
 
 		if (setting != null) {
 			for (int i = 0; i < this.algorithms.size(); i++) {
-				results.add(new LinkedList<Step>());
+				results.add(new Result(algorithms.get(i).getName(), new LinkedList<Step>()));
 				executorService.submit(new AlgorithmRunnable(algorithms.get(i), setting, results.get(i)));
 			}
 		}

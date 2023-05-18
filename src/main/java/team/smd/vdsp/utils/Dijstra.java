@@ -18,7 +18,7 @@ public class Dijstra extends ShortestPath {
 	}
 
 	public Dijstra(int[][] Matrix, int start) {
-		super(Matrix, start);
+		super(Matrix, start, "dijkstra");
 		this.adjMatrix = new int[vSize][Matrix[0].length];
 		for (int i = 0; i < Matrix.length; i++) {
 			for (int j = 0; j < Matrix[i].length; j++) {
