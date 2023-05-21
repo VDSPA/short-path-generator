@@ -61,6 +61,10 @@ public class BFS extends ShortestPath {
 				continue;
 			}
 			visited[u] = true;
+			// settle node u
+			tarTemp[0] = new Target("node", "" + u);
+			stepTemp = new Step("settle", tarTemp);
+			stepQueue.offer(stepTemp);
 			for (int i = 0; i < vSize; i++) {
 				if ((adjMatrix[u][i] != 0) && (adjMatrix[u][i] != Integer.MAX_VALUE)) {
 					// If there is a path between node u and node i
