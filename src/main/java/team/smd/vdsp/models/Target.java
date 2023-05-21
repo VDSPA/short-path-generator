@@ -2,14 +2,14 @@ package team.smd.vdsp.models;
 
 public class Target {
 
-	/** 
+	/**
 	 * Action target identifier
 	 * 
 	 * "node" or "edge"
 	 */
 	private String role;
 
-	/** 
+	/**
 	 * id
 	 * 
 	 * A number like string for node `1`
@@ -27,17 +27,35 @@ public class Target {
 		this.id = id;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null || getClass() != obj.getClass())
+		if (obj == null)
 			return false;
-		Target target = (Target) obj;
-		if ((target.id.equals(this.id)) && (target.role.equals(this.role))) {
-			return true;
-		} else {
+		if (getClass() != obj.getClass())
 			return false;
-		}
+		Target other = (Target) obj;
+		if (role == null) {
+			if (other.role != null)
+				return false;
+		} else if (!role.equals(other.role))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 	public void setRole(String r) {
@@ -61,7 +79,8 @@ public class Target {
 		id = i;
 	}
 
-	public String toString () {
+	public String toString() {
 		return "Role: " + role + " " + "Id: " + id + " ";
 	}
+
 }
