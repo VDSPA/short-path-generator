@@ -1,8 +1,19 @@
 package team.smd.vdsp.utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import team.smd.vdsp.models.Target;
+import team.smd.vdsp.models.Step;
+import java.util.HashSet;
+
 public class DFS extends ShortestPath {
 
+	/** Store the distance of the shortest path */
 	int[] shortestDis = new int[vSize];
+
+	/** accumulate and store the edges of each DFSImpler settle */
+	ArrayList<Target> accumulateSettle = new ArrayList<>();
 
 	public DFS() {
 	}
@@ -31,6 +42,7 @@ public class DFS extends ShortestPath {
 	 */
 	public void shortest() {
 		resetParam();
+
 		for (int end = 0; end < vSize; end++) {
 			DFSImpl dfsImpl = new DFSImpl(this.adjMatrix, this.start, end);
 			if (end == this.start) {
@@ -38,11 +50,31 @@ public class DFS extends ShortestPath {
 				continue;
 			} else {
 				dfsImpl.shortest();
-				this.stepQueue.addAll(dfsImpl.stepQueue);
+
+				for (Step element : dfsImpl.stepQueue) {
+					if (element.getType() == "settle") {
+						// If the type is settle, it will be accumulated in accumulateSettle
+						for (Target i : element.getTargets()) {
+							accumulateSettle.add(i);
+						}
+						accumulateSettle = removeDuplicates(accumulateSettle);
+
+					} else {
+						// If the type is traverse, go directly to stepQueue
+						this.stepQueue.add(element);
+					}
+				}
+
+				accumulateSettle = removeDuplicates(accumulateSettle);
+
+				// Put the accumulated Settle into stepQueue
+				Target[] targetArr = accumulateSettle.toArray(new Target[accumulateSettle.size()]);
+				this.stepQueue.add(new Step("settle", targetArr));
 				this.allPath.addAll(dfsImpl.allPath);
 				shortestDis[end] = dfsImpl.getShortestDis();
 			}
 		}
+
 	}
 
 	/**
@@ -59,6 +91,20 @@ public class DFS extends ShortestPath {
 		this.stepQueue.clear();
 		this.allPath.clear();
 		shortestDis = new int[vSize];
+		accumulateSettle = new ArrayList<Target>();
+	}
+
+	public static ArrayList<Target> removeDuplicates(ArrayList<Target> originalList) {
+		HashSet<Target> set = new HashSet<>();
+		ArrayList<Target> newList = new ArrayList<>();
+
+		for (Target target : originalList) {
+			if (set.add(target)) {
+				newList.add(target);
+			}
+		}
+
+		return newList;
 	}
 
 }
