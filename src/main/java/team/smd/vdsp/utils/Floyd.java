@@ -3,6 +3,7 @@ package team.smd.vdsp.utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import team.smd.vdsp.models.Step;
 import team.smd.vdsp.models.Target;
@@ -91,7 +92,7 @@ public class Floyd extends ShortestPath {
 		clearToolArr();
 		ArrayList<Integer> traVertex = new ArrayList<>();// traversed vertex
 		ArrayList<String> traEdge = new ArrayList<>();// traversed edge
-		traVertex.addAll(Arrays.asList(i, j, k));
+		traVertex.addAll(Arrays.asList(i, k, j));
 		getMiddle(i, j, ijVertex, ijEdge, traVertex, traEdge);
 		getMiddle(i, k, ikVertex, ikEdge, traVertex, traEdge);
 		getMiddle(k, j, kjVertex, kjEdge, traVertex, traEdge);
@@ -248,7 +249,7 @@ public class Floyd extends ShortestPath {
 	 * @return
 	 */
 	public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list) {
-		HashSet<T> set = new HashSet<>(list);
+		LinkedHashSet<T> set = new LinkedHashSet<>(list);
 		return new ArrayList<>(set);
 	}
 
