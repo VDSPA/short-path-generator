@@ -27,7 +27,9 @@ public class AlgorithmRunner {
 		this.setting = setting;
 		this.algorithms = new ArrayList<>(Arrays.asList(
 			new DFS(setting.getMatrix(), setting.getStart()),
-			new Dijstra(setting.getMatrix(), setting.getStart())
+			new Dijstra(setting.getMatrix(), setting.getStart()),
+			new BFS(setting.getMatrix(), setting.getStart()),
+			new Floyd(setting.getMatrix(), setting.getStart())
 		));
 	}
 
