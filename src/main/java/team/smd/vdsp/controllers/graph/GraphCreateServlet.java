@@ -13,8 +13,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import team.smd.vdsp.dtos.graph.CreateResponseDto;
+import team.smd.vdsp.dtos.graph.CreateRequestDto;
 import team.smd.vdsp.models.Response;
 import team.smd.vdsp.services.graph.GraphService;
+import team.smd.vdsp.utils.RequestUtil;
 
 @WebServlet("/api/graph")
 public class GraphCreateServlet extends HttpServlet {
@@ -30,7 +32,8 @@ public class GraphCreateServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		PrintWriter	out = res.getWriter();
 		try {
-			Response<CreateResponseDto> data = new Response<CreateResponseDto>(graphService.create(), "ok", 200);
+			CreateRequestDto requestDto = JSON.parseObject(RequestUtil.getBody(req), CreateRequestDto.class);
+			Response<CreateResponseDto> data = new Response<CreateResponseDto>(graphService.create(requestDto.getSize()), "ok", 200);
 
 			out.print(JSON.toJSONString(data));
 		} catch (Exception e) {

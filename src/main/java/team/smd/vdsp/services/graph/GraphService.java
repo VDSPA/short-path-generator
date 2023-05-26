@@ -10,8 +10,17 @@ import team.smd.vdsp.utils.DirectedWSG;
 import team.smd.vdsp.models.Result;
 
 public class GraphService {
- 	public CreateResponseDto create() {
-		int[][] matrix = DirectedWSG.getMatrix();
+ 	public CreateResponseDto create(String size) {
+		int number = 6;
+		if (size.equals("small")) {
+			number = 4;
+		} else if (size.equals("middle")) {
+			number = 6;
+		} else if (size.equals("large")) {
+			number = 9;
+		}
+
+		int[][] matrix = DirectedWSG.getMatrix(number);
 		CreateResponseDto responseDto = new CreateResponseDto(matrix);
 		return responseDto;
 	}
