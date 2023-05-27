@@ -46,23 +46,32 @@ public class Dijstra extends ShortestPath {
 		// Initialize the source node
 		distance[start] = 0;
 		visited[start] = true;
-		stepTemp = new Step("settle", new Target[] { new Target("node", Integer.toString(start))} );
+		stepTemp = new Step("settle", new Target[] { new Target("node", Integer.toString(start)) });
 		stepQueue.offer(stepTemp);
+		boolean startHasOutEdge = false; // recode if start point has out edge
 		// traverse all vertexes that start point can arrive directly
-		for (int i = 1; i < vSize; i++) {
+		for (int i = 0; i < vSize; i++) {
+			if (start == i) {
+				continue;
+			}
 			distance[i] = adjMatrix[start][i];
 
 			if (adjMatrix[start][i] != Integer.MAX_VALUE) {
+				startHasOutEdge = true;
 				// traverse edge start:i
-				stepTemp = new Step("traverse", new Target[] { new Target("edge", start + ":" + i)} );
+				stepTemp = new Step("traverse", new Target[] { new Target("edge", start + ":" + i) });
 				stepQueue.offer(stepTemp);
 				// traverse node i
-				stepTemp = new Step("traverse", new Target[] { new Target("node", Integer.toString(i))} );
+				stepTemp = new Step("traverse", new Target[] { new Target("node", Integer.toString(i)) });
 				stepQueue.offer(stepTemp);
 
 				pre[i] = start;
 
 			}
+		}
+		// if edge doesn't have out edge,we can end execution.
+		if (startHasOutEdge == false) {
+			return;
 		}
 
 		pre[start] = -1;
@@ -87,21 +96,21 @@ public class Dijstra extends ShortestPath {
 
 			visited[min_index] = true;
 			// settle index min_index
-			stepTemp = new Step("settle", new Target[] { 
-				new Target("node", Integer.toString(min_index)),
-				new Target("edge", pre[min_index] + ":" + min_index)
-			} );
+			stepTemp = new Step("settle", new Target[] {
+					new Target("node", Integer.toString(min_index)),
+					new Target("edge", pre[min_index] + ":" + min_index)
+			});
 			stepQueue.offer(stepTemp);
 			// Check all edges adjacent to v
 			for (int j = 0; j < vSize; j++) {
 
 				if (visited[j] == false && (adjMatrix[min_index][j] != Integer.MAX_VALUE)) {
 					// traverse edge min_index；j
-					stepTemp = new Step("traverse", new Target[] { new Target("node", min_index + ":" + j)} );
+					stepTemp = new Step("traverse", new Target[] { new Target("node", min_index + ":" + j) });
 					stepQueue.offer(stepTemp);
 
 					// traverse index j
-					stepTemp = new Step("traverse", new Target[] { new Target("node", Integer.toString(j))} );
+					stepTemp = new Step("traverse", new Target[] { new Target("node", Integer.toString(j)) });
 					stepQueue.offer(stepTemp);
 					if ((min + adjMatrix[min_index][j]) < distance[j]) {
 						distance[j] = min + adjMatrix[min_index][j];
