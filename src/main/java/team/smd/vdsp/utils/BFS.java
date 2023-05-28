@@ -106,6 +106,10 @@ public class BFS extends ShortestPath {
 			}
 
 		}
+		Target[] tarTemp1 = new Target[1];
+		tarTemp1[0] = new Target();
+		this.stepQueue.add(new Step("finish", tarTemp1));
+
 		// Save the shortest path information in allPath
 		for (int end = 0; end < vSize; end++) {
 			if (end == start || visited[end] == false)
