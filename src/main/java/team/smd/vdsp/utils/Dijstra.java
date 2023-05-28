@@ -48,11 +48,16 @@ public class Dijstra extends ShortestPath {
 		visited[start] = true;
 		stepTemp = new Step("settle", new Target[] { new Target("node", Integer.toString(start)) });
 		stepQueue.offer(stepTemp);
+		boolean startHasOutEdge = false; // recode if start point has out edge
 		// traverse all vertexes that start point can arrive directly
-		for (int i = 1; i < vSize; i++) {
+		for (int i = 0; i < vSize; i++) {
+			if (start == i) {
+				continue;
+			}
 			distance[i] = adjMatrix[start][i];
 
 			if (adjMatrix[start][i] != Integer.MAX_VALUE) {
+				startHasOutEdge = true;
 				// traverse edge start:i
 				stepTemp = new Step("traverse", new Target[] { new Target("edge", start + ":" + i) });
 				stepQueue.offer(stepTemp);
@@ -63,6 +68,10 @@ public class Dijstra extends ShortestPath {
 				pre[i] = start;
 
 			}
+		}
+		// if edge doesn't have out edge,we can end execution.
+		if (startHasOutEdge == false) {
+			return;
 		}
 
 		pre[start] = -1;
