@@ -62,9 +62,18 @@ public class BFS extends ShortestPath {
 			}
 			visited[u] = true;
 
-			// settle node u
-			tarTemp[0] = new Target("node", "" + u);
-			stepTemp = new Step("settle", tarTemp);
+			// settle node u and edge pre[u]:u
+			if (pre[u] > -1) {
+				stepTemp = new Step("settle", new Target[] {
+						new Target("node", Integer.toString(u)),
+						new Target("edge", pre[u] + ":" + u)
+				});
+			} else {
+				stepTemp = new Step("settle", new Target[] {
+						new Target("node", Integer.toString(u))
+				});
+			}
+
 			stepQueue.offer(stepTemp);
 
 			for (int i = 0; i < vSize; i++) {
