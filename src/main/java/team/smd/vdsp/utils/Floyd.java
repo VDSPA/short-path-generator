@@ -72,11 +72,36 @@ public class Floyd extends ShortestPath {
 		for (int i = 0; i < vSize; i++) {
 			shortestDis[i] = distance[start][i];
 		}
+
+		ArrayList<Target> tempTar = new ArrayList<>();
 		for (int end = 0; end < vSize; end++) {
 			if (start == end || (path[start][end] == -1 && adjMatrix[start][end] == Integer.MAX_VALUE))
 				continue;
+			// used to record the last step
+			ArrayList<Integer> finalVertex = new ArrayList<>();
+			ArrayList<Integer> settV = new ArrayList<>();
+			ArrayList<String> finalEdge = new ArrayList<>();
+			ArrayList<String> settE = new ArrayList<>();
 			this.allPath.add(start + " - " + end + ":" + getOnePath(this.path, start, end) + " " + end + "\n");
+			// add step to record the result(start and its path)
+			getMiddle(start, end, finalVertex, finalEdge, settV, settE);
+
+			for (int i = 0; i < finalVertex.size(); i++) {
+				tempTar.add(new Target("node", Integer.toString(finalVertex.get(i))));
+			}
+			for (int i = 0; i < finalEdge.size(); i++) {
+				tempTar.add(new Target("edge", finalEdge.get(i)));
+			}
+
 		}
+		tempTar = removeDuplicates(tempTar);
+		Target[] tt = tempTar.toArray(new Target[tempTar.size()]);
+		Step stepTemp = new Step("settle", tt);
+		stepQueue.offer(stepTemp);
+
+		Target[] tarTemp1 = new Target[1];
+		tarTemp1[0] = new Target();
+		this.stepQueue.add(new Step("finish", tarTemp1));
 
 	}
 
@@ -186,17 +211,21 @@ public class Floyd extends ShortestPath {
 	 * @param abMedia
 	 * @param abEdge
 	 * @param traVertex
+	 * @param traEdge
 	 */
 	public void getMiddle(int a, int b, ArrayList<Integer> abVertex, ArrayList<String> abEdge,
 			ArrayList<Integer> traVertex, ArrayList<String> traEdge) {
-		if (distance[a][b] != Integer.MAX_VALUE) {
+		if (distance[a][b] != Integer.MAX_VALUE) { // a to b reachable
 			for (Integer element : getMiddleV(path, a, b)) {
 				abVertex.add(element);
 				traVertex.add(element);
 			}
 			abVertex = removeDuplicates(abVertex);
 			for (int m = 0; m < abVertex.size() - 1; m++) {
-				abEdge.add(abVertex.get(m) + ":" + abVertex.get(m + 1));
+				// if there exits edge m:m+1
+				if (distance[abVertex.get(m)][abVertex.get(m + 1)] != Integer.MAX_VALUE) {
+					abEdge.add(abVertex.get(m) + ":" + abVertex.get(m + 1));
+				}
 			}
 		}
 		traEdge.addAll(abEdge);
