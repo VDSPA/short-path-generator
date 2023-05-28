@@ -56,13 +56,16 @@ public class DFSImpl extends ShortestPath {
 		this.stepQueue = new LinkedList<Step>();
 		stepQueue = dfsShortest(start, end, visited, pathList, pathLength);
 
-		// Now, the elements in the shortest array are the edges on
+		// Now, the elements in the shortest array are the vertexes on
 		// the shortest path between the current start and the end
 		// Settle all edges of the shortest path
 		if (shortest.size() != 0) {
-			Target[] tt = new Target[shortest.size() - 1];
+			Target[] tt = new Target[2 * shortest.size() - 1];
 			for (int i = 0; i < shortest.size() - 1; i++) {
 				tt[i] = new Target("edge", shortest.get(i) + ":" + shortest.get(i + 1));
+			}
+			for (int i = 0; i < shortest.size(); i++) {
+				tt[shortest.size() - 1 + i] = new Target("node", shortest.get(i) + "");
 			}
 			Step ss = new Step("settle", tt);
 			stepQueue.offer(ss);
