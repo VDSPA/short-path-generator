@@ -154,7 +154,7 @@ public class Floyd extends ShortestPath {
 		setVertex = removeDuplicates(setVertex);
 		setEdge = removeDuplicates(setEdge);
 
-		offerStep(setVertex, setEdge, "settle");
+		// offerStep(setVertex, setEdge, "settle");
 
 	}
 
