@@ -75,6 +75,10 @@ public class DFS extends ShortestPath {
 			}
 		}
 
+		Target[] tarTemp1 = new Target[1];
+		tarTemp1[0] = new Target();
+		this.stepQueue.add(new Step("finish", tarTemp1));
+
 	}
 
 	/**
